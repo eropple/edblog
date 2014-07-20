@@ -1,0 +1,53 @@
+@(post: domain.Post, articleIndex: Int, fullPost: Boolean)
+
+<article>
+    <header class="row">
+        <div class="medium-6 small-12 column">
+            <h1><a href="@post.reverseRoute()">@post.title</a></h1>
+            <h2><time pubdate datetime="@post.pubdate">@Html(post.dateline)</time></h2>
+        </div>
+        <div class="medium-5 small-12 column classification">
+            <p class="category">
+                <a href="@post.category.reverseRoute()">@post.category.name.toLowerCase</a>
+            </p>
+            <ul class="tags">
+                @post.tags.map(tag => {
+                    <li><a href="{tag.reverseRoute()}">{tag.name.toLowerCase}</a></li>
+                })
+            </ul>
+        </div>
+    </header>
+    <div class="row">
+        @defining(post.generate(articleIndex, fullPost)) { (formatted) =>
+            @(!formatted._2.isEmpty) match {
+                case true => {
+                    <section class="body large-10 column">
+                        @Html(formatted._1)
+                        <section class="endnotes">
+                            @for( (note, idx) <- formatted._2.zipWithIndex ) {
+                            <dl>
+                                <dt><a id="a@{articleIndex}e@{idx + 1}" href="#a@{articleIndex}e@{idx + 1}-a">@{idx + 1}.</a></dt>
+                                <dd>
+                                    @Html(note)
+                                </dd>
+                            </dl>
+                            }
+                        </section>
+                    </section>
+                    <section class="sidenotes large-2 column">
+
+                    </section>
+                }
+                case false => {
+                    <section class="body large-12 column">
+                        @Html(formatted._1)
+                    </section>
+                }
+            }
+            <div class="read-more small-12 column"><a href="@{post.reverseRoute()}#break">read more</a></div>
+        }
+        @if(!fullPost) {
+        }
+    </div>
+</article>
+

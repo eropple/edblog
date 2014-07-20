@@ -1,0 +1,22 @@
+@()
+
+<section id="CATEGORIES">
+    <h1>Categories</h1>
+    <ol>
+        @for(cc <- domain.Category.countsByCategory()) {
+            <li>
+                <a href="@{cc._1.reverseRoute()}">@{cc._1.name} (@{cc._2})</a>
+            </li>
+        }
+    </ol>
+</section>
+<section id="TAGS">
+    <h1>Tags</h1>
+    <ul>
+        @for(tw <- domain.Tag.tagCloud()) {
+            <li>
+                <a href="@{tw._1.reverseRoute()}" class="weight-@{tw._2}">@{tw._1.name.toLowerCase}</a>
+            </li>
+        }
+    </ul>
+</section>

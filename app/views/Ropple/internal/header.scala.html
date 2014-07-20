@@ -1,0 +1,44 @@
+@(title: Option[String], pageClass: String)
+
+@import util.BlogSettings
+
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        @title match {
+            case Some(title) => { @title | @BlogSettings.title }
+            case None => { @BlogSettings.title }
+        }
+    </title>
+    <link rel="stylesheet" href='@controllers.routes.Application.asset("stylesheets/app.css")' />
+    <link rel="stylesheet" href='@controllers.routes.Application.asset("stylesheets/lib/prism.css")'/>
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <script src='@controllers.routes.Application.asset("js/lib/modernizr.js")'></script>
+</head>
+<body class="@pageClass">
+<header id="HEADER" class="row">
+    <section id="TITLE" class="medium-7 column">
+        <h1 title="ed can hack. see ed hack. hack, ed, hack!"><a href="/">ed can hack</a></h1>
+        <h2>and do some other stuff too, sometimes</h2>
+    </section>
+    <section id="LINKS" class="medium-5 column">
+        <ul>
+            <li>
+                <a href="/pages/about">About</a>
+            </li>
+            <li>
+                <a href="https://twitter.com/edropple" target="_blank" title="@@edropple on Twitter">
+                    Twitter
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/eropple" target="_blank" title="eropple on Github">
+                    Github
+                </a>
+            </li>
+        </ul>
+    </section>
+</header>

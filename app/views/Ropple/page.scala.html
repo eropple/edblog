@@ -1,0 +1,43 @@
+@(page: domain.Page)
+
+
+@internal.main(Some(page.title)) {
+<article>
+    <header class="row">
+        <div class="medium-6 small-12 column">
+            <h1><a href="#">@page.title</a></h1>
+        </div>
+    </header>
+    <div class="row">
+        @defining(page.generate(0, true)) { (formatted) =>
+            @(!formatted._2.isEmpty) match {
+                case true => {
+                    <section class="body large-10 column">
+                        @Html(formatted._1)
+                        <section class="endnotes">
+                            @for( (note, idx) <- formatted._2.zipWithIndex ) {
+                            <dl>
+                                <dt><a id="a0e@{idx + 1}" href="#a0e@{idx + 1}-a">@{idx + 1}.</a></dt>
+                                <dd>
+                                    @Html(note)
+                                </dd>
+                            </dl>
+                            }
+                        </section>
+                    </section>
+                    <section class="sidenotes large-2 column">
+
+                    </section>
+                }
+                case false => {
+                    <section class="body large-12 column">
+                        @Html(formatted._1)
+                    </section>
+                }
+            }
+        }
+    </div>
+</article>
+
+
+}

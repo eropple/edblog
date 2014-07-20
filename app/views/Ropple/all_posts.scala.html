@@ -1,0 +1,26 @@
+@(page: Long, numPages: Long, title: Option[String], posts: Seq[domain.Post])
+
+
+@internal.main(title, "all_posts page-" + page.toString) {
+    @if(page != 1) {
+        <h1>Page {page} of {numPages}</h1>
+    }
+    @for((post, idx) <- posts.zipWithIndex) {
+        @internal.post_fragment(post, idx, false)
+    }
+    @if(numPages > 1) {
+        <div class="page-navigator row">
+            <div class="prev-page small-6 column">
+                @if(1 < page) {
+                <a href="@controllers.routes.Application.allPosts(page - 1)">&laquo; previous page </a>
+                }
+
+            </div>
+            <div class="next-page small-6 column">
+                @if(page < numPages) {
+                <a href="@controllers.routes.Application.allPosts(page + 1)">next page &raquo;</a>
+                }
+            </div>
+        </div>
+    }
+}

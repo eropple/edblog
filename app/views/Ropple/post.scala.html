@@ -1,0 +1,6 @@
+@(post: domain.Post)
+
+
+@internal.main(Some(post.title)) {
+    @internal.post_fragment(post, 0, true)
+}

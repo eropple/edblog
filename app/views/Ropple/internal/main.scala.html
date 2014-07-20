@@ -1,0 +1,12 @@
+@(title: Option[String], pageClass: String = "")(content: Html = Html(""))
+
+@header(title, pageClass)
+<section id="MAIN" class="row">
+    <section id="CONTENT" class="large-9 medium-8 column">
+        @content
+    </section>
+    <section id="SIDEBAR" class="large-3 medium-4 column">
+        @sidebar()
+    </section>
+</section>
+@footer()

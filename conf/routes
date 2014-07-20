@@ -1,0 +1,23 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                                                                       controllers.Application.allPosts(page: Long = 1)
+GET     /$page<[0-9]+>                                                          controllers.Application.allPosts(page: Long)
+
+GET     /pages/:slug                                                            controllers.Application.page(slug)
+
+GET     /$year<[0-9]{4}>/$month<[0-9]{1,2}>/:slug                               controllers.Application.singlePost(slug: String, page: Long = 1, year: Int, month: Int)
+GET     /$year<[0-9]{4}>/$month<[0-9]{1,2}>/:slug/$page<[0-9]+>                 controllers.Application.singlePost(slug: String, page: Long, year: Int, month: Int)
+
+GET     /category/:category                                                     controllers.Application.postsByCategory(category, page: Long = 1)
+GET     /category/:category/$page<[0-9]+>                                       controllers.Application.postsByCategory(category, page: Long)
+GET     /tags/:tag                                                              controllers.Application.postsByTag(tag, page: Long = 1)
+GET     /tags/:tag/$page<[0-9]+>                                                controllers.Application.postsByTag(tag, page: Long)
+
+
+POST    /admin/flush_caches                                                     controllers.Admin.flushCaches
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file                                                           controllers.Application.asset(file)

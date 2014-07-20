@@ -1,0 +1,5 @@
+@(posts: Seq[domain.Post], fullPost: Boolean = false)
+
+@for((post, idx) <- posts.zipWithIndex) {
+    @post_fragment(post, idx, fullPost)
+}
