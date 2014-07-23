@@ -9,6 +9,7 @@ import org.squeryl.internals.DatabaseAdapter
 import domain.data.Data
 import java.io.{PrintWriter, FileWriter}
 import scala.Some
+import scala.util.{Failure, Success, Try}
 
 /**
  * Created by ed on 7/17/14.
@@ -29,6 +30,27 @@ object Global extends GlobalSettings {
       transaction {
         Data.printDdl
       }
+    }
+    if ({
+      val property = System.getProperty("edblog.run_ddl")
+      property != null && property.charAt(0).toUpper == 'Y'
+    }) {
+      val jdbcString = app.configuration.getString("db.default.url").getOrElse(throw new Exception("db.default.url must be set."))
+      Logger.info(s"Executing DDL on ${jdbcString}.")
+      transaction {
+        Try(Data.create) match {
+          case Success(_) => {
+            Logger.info("DDL execution successful.")
+            System.exit(0)
+          }
+          case Failure(ex: Exception) => {
+            Logger.error("DDL execution failed.", ex)
+            System.exit(1)
+          }
+          case Failure(t: Throwable) => throw t
+        }
+      }
+
     }
   }
   def getSession(adapter:DatabaseAdapter, app: Application) = Session.create(DB.getConnection()(app), adapter)

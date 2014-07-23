@@ -33,6 +33,8 @@ class Post(val slug: String,
   def dateline: String = datelineFormatter.print(postedOn.withZone(displayTimeZone))
   def pubdate: String = pubdateFormatter.print(postedOn.withZone(displayTimeZone))
 
+  def disqusId = s"post-${id}"
+
   def cache() = {
     Cache.set(s"posts.id.${id}", this, Post.cacheTime)
     Cache.set(s"posts.slug.${slug}", this, Post.cacheTime)

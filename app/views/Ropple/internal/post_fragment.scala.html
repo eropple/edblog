@@ -44,9 +44,11 @@
                     </section>
                 }
             }
-            <div class="read-more small-12 column"><a href="@{post.reverseRoute()}#break">read more</a></div>
         }
-        @if(!fullPost) {
+        @if(fullPost) {
+            @post_comments(post)
+        } else {
+            @read_more(post)
         }
     </div>
 </article>

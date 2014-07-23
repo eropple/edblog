@@ -17,5 +17,21 @@
 <script src='@controllers.routes.Application.asset("js/lib/foundation.min.js")'></script>
 <script src='@controllers.routes.Application.asset("js/app.js")'></script>
 <script src='@controllers.routes.Application.asset("js/lib/prism.js")'></script>
+@play.api.Play.current.configuration.getString("blog.google_analytics_key").map(key => {
+
+    <script type="text/javascript">{s"""
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', '${key}']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();"""}
+    </script>
+
+})
 </body>
 </html>
