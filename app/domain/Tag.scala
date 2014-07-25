@@ -67,8 +67,8 @@ object Tag {
           compute(countDistinct(pt.postId))
         ).map(t => (getById(t.key).get, t.measures)).toSeq
 
-        val maxWeight = Math.max(1, counts.maxBy(t => t._2)._2.toDouble)
-        val weights = counts.map(t => (t._1, ((t._2 / maxWeight) * 10).ceil.toInt))
+        val maxWeight = Math.max(1, counts.map(t => t._2).reduceLeft((x, y) => if (x > y) x else y))
+        val weights = counts.map(t => (t._1, ((t._2 / maxWeight.toDouble) * 10).ceil.toInt))
         val shuffled = weights.sortBy(_._1.hashCode())
 
         Cache.set("tags.weights", shuffled.map(w => s"${w._1.slug}=${w._2}").mkString(";"), cacheTime)
